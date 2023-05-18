@@ -1,13 +1,14 @@
 package ru.tinkoff.myupgradeapplication.week6
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.github.tomakehurst.wiremock.client.WireMock.aResponse
 import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
-import com.github.tomakehurst.wiremock.http.Fault
+import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.junit.WireMockRule
+import com.github.tomakehurst.wiremock.stubbing.Scenario
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -16,66 +17,37 @@ import ru.tinkoff.myupgradeapplication.week6.rules.LocalhostPreferenceRule
 import ru.tinkoff.myupgradeapplication.week6.screens.StartPage
 import ru.tinkoff.myupgradeapplication.week6.utils.fileToString
 
-class WireMockFirstTest {
+class WireMockVerifyTest {
     @get: Rule
     val ruleChain: RuleChain = RuleChain.outerRule(LocalhostPreferenceRule())
         .around(WireMockRule(5000))
         .around(ActivityScenarioRule(MainActivity::class.java))
 
     @Test
-    fun emptyWireMockTest() {
-        // то что тест запускается - уже победа
-    }
-
-    @Test
-    fun firstMockTest() {
+    fun testWithChains() {
 
         stubFor(
             get(urlEqualTo("/api/"))
-                .willReturn(
-                    ok(fileToString("mock/mock-first.json"))
-                        .withFault(Fault.EMPTY_RESPONSE)
-                )
-        )
-
-        with (StartPage()) {
-            clickShowPersonButton()
-            with(personView) {
-                checkEmail("joona.haataja@example.com")
-                checkFio("Mr Quentin Tarantino")
-            }
-
-        }
-
-        Thread.sleep(5000)
-    }
-
-    @Test
-    fun testNeedChains() {
-
-        stubFor(
-            get(urlEqualTo("/api/"))
+                .inScenario("Films")
+                .whenScenarioStateIs(Scenario.STARTED)
+                .willSetStateTo("Step 1 - Tarantino")
                 .willReturn(
                     ok(fileToString("mock/mock-first.json"))
                 )
         )
         stubFor(
             get(urlEqualTo("/api/"))
+                .inScenario("Films")
+                .whenScenarioStateIs("Step 1 - Tarantino")
+                .willSetStateTo("Step finish")
                 .willReturn(
-                    //ok(fileToString("mock/mock-second.json"))
-                    aResponse()
-                        .withStatus(200)
-                        .withBody(fileToString("mock/mock-second.json"))
-
+                    ok(fileToString("mock/mock-second.json"))
                 )
         )
-
         with (StartPage ()) {
             clickShowPersonButton()
-            Thread.sleep(5000)
             clickShowPersonButton()
-            Thread.sleep(5000)
-
+            verify(3, getRequestedFor(urlEqualTo("/api/")))
         }
     }
 }
