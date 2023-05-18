@@ -60,7 +60,7 @@ class FirstFragment : Fragment() {
                 else
                     text1
         }
-        binding.dialogButton.setOnClickListener {
+        binding.showPerson.setOnClickListener {
             //dialog.show()
             getRandPersons()
         }

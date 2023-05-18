@@ -9,8 +9,10 @@
     <string name="previous">Previous</string>
 
     <string name="login_hint">Login</string>
+    <string name="wiki_hint">Enter your wiki request</string>
     <string name="password_hint">Password</string>
     <string name="submitButton">Submit</string>
+    <string name="wikiButton">Search this request in wiki!</string>
 
     <string name="first_text">
         Exorcizo te, immundissime spiritus, omnis incursio adversarii, omne phantasma, omnis legio,
