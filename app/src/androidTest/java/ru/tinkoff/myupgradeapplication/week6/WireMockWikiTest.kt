@@ -43,7 +43,6 @@ class WireMockWikiTest {
             typeTextToWikiFiled("Oleg")
             clickWikiSearchButton()
         }
-
         Thread.sleep(15000)
     }
 

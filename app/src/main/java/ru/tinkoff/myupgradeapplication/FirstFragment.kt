@@ -1,5 +1,6 @@
 package ru.tinkoff.myupgradeapplication
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 import ru.tinkoff.myupgradeapplication.databinding.FragmentFirstBinding
 import ru.tinkoff.myupgradeapplication.network.RandomUserService
 
@@ -22,6 +24,8 @@ class FirstFragment : Fragment() {
     lateinit var randomUserApiService : RandomUserService
 
     var disposable: Disposable? = null
+    lateinit var dialog : AlertDialog
+
     private var _binding: FragmentFirstBinding? = null
 
     // This property is only valid between onCreateView and
@@ -46,9 +50,11 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
-        val dialog = view.context.let {
+        dialog = view.context.let {
             AlertDialog.Builder(it)
-        }.setMessage("Теперь ты автоматизатор").setTitle("Важное сообщение").create()
+        }.setPositiveButton("OK") {
+                dialog, which -> dialog.dismiss()
+        }.create()
 
 
         binding.changeButton.setOnClickListener {
@@ -109,7 +115,16 @@ class FirstFragment : Fragment() {
                     binding.personLayout.root.visibility = View.GONE
 
             },
-                { error -> binding.personLayout.root.visibility = View.GONE }
+                { error ->
+                    if (error is HttpException)
+                    {
+                        with(dialog) {
+                            setMessage(error.localizedMessage)
+                            setTitle("Something wrong")
+                            show()
+                        }
+                    }
+                    binding.personLayout.root.visibility = View.GONE }
             )
     }
 }

@@ -57,26 +57,24 @@ class WireMockTest {
     fun fragmentNavigationTest() {
         setStringPrefParam("demo_url", "url", "http://localhost:5000/w/")
 
-
+        // just examples:
         val wikiMatcher: MappingBuilder
         = get(WireMock.urlPathMatching("/w/api.php"))
             .withQueryParam("action", equalTo("query"))
             .withQueryParam("format", equalTo("json"))
-            .withQueryParam("list", WireMock.equalTo("search"))
-            .withQueryParam("srsearch", WireMock.equalTo("tinkoff"))
+            .withQueryParam("list", equalTo("search"))
+            .withQueryParam("srsearch", equalTo("tinkoff"))
 
         stubFor(
             wikiMatcher
                 .willReturn(
                     aResponse()
                         .withStatus(200)
-                        .withBody("body values")
-        )
+                        .withBody("body values"))
         )
 
         stubFor(
-            any(
-                urlEqualTo("/auth/step?user=billy"))
+            any(urlEqualTo("/auth/step?user=billy"))
                 .withHeader("Accept", containing("xml"))
                 .withCookie("session", matching(".*12345.*"))
                 .withQueryParam("term", equalTo("WireMock"))
@@ -97,7 +95,6 @@ class WireMockTest {
                 .withRequestBody(equalToJson("{name=billy;}"))
         )
 
-
         stubFor(
             post(
                 urlEqualTo("/client/checkCardValue"))
@@ -105,7 +102,6 @@ class WireMockTest {
                 .whenScenarioStateIs(STARTED)
                 .willSetStateTo("Step 1")
                 .willReturn(okJson(" { cardValue = 400 }")))
-
 
         stubFor(
             post(
@@ -123,27 +119,22 @@ class WireMockTest {
                 .willSetStateTo(STARTED)
                 .willReturn(okJson(" { cardValue = 200 }")))
 
-
         stubFor(
             wikiMatcher.willReturn(
                 aResponse()
                 .withStatus(200)))
         stubFor(
-            any(
-                urlEqualTo("/auth/step"))
-                    .withQueryParam("search_term", equalTo("WireMock"))
-                    .withBasicAuth("jeff@example.com", "jeffteenjefftyjeff")
-                    .withRequestBody(equalToXml("<search-results />"))
-                    .withRequestBody(matchingXPath("//search-results"))
-                    .withRequestBody(equalToJson("{ name = billy; }", true, true ) )
+            any(urlEqualTo("/auth/step"))
+                .withQueryParam("search_term", equalTo("WireMock"))
+                .withBasicAuth("jeff@example.com", "jeffteenjefftyjeff")
+                .withRequestBody(equalToXml("<search-results />"))
+                .withRequestBody(matchingXPath("//search-results"))
+                .withRequestBody(equalToJson("{ name = billy; }", true, true ) )
                 .willReturn(
                     unauthorized()
                 )
         )
-
-
     }
-
 
     private fun setStringPrefParam(prefName: String, param: String, value: String) {
         val pref = InstrumentationRegistry.getInstrumentation().targetContext.getSharedPreferences(prefName, Context.MODE_PRIVATE)

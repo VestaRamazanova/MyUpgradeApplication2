@@ -142,10 +142,13 @@ class SecondFragment : Fragment() {
                     if (result.query.search.isNotEmpty())
                     {
                         binding.twWikiResult.text = Html.fromHtml (result.query.search[0].snippet, Html.FROM_HTML_MODE_COMPACT )
-                    }
-
+                    } else
+                        binding.twWikiResult.text = getString(R.string.no_result)
                 },
-                { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
+                { error ->
+
+                    Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show()
+                }
             )
     }
 }

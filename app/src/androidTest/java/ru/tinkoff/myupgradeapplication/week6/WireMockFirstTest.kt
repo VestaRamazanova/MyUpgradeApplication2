@@ -29,7 +29,6 @@ class WireMockFirstTest {
 
     @Test
     fun firstMockTest() {
-
         stubFor(
             get(urlEqualTo("/api/"))
                 .willReturn(
@@ -40,19 +39,17 @@ class WireMockFirstTest {
 
         with (StartPage()) {
             clickShowPersonButton()
+            Thread.sleep(5000)
             with(personView) {
                 checkEmail("joona.haataja@example.com")
                 checkFio("Mr Quentin Tarantino")
             }
-
         }
-
-        Thread.sleep(5000)
+        Thread.sleep(5000) // sorry for this shit
     }
 
     @Test
     fun testNeedChains() {
-
         stubFor(
             get(urlEqualTo("/api/"))
                 .willReturn(

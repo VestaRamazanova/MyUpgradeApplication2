@@ -34,4 +34,5 @@
 
     </string>
     <string name="show_button">Show Person</string>
+    <string name="no_result">No results(</string>
 </resources>
