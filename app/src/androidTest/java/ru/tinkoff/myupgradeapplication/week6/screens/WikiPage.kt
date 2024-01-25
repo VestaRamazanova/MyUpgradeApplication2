@@ -25,6 +25,8 @@ class WikiPage {
     fun typeTextToWikiFiled(text: String) {
         onView(editTextWikiFieldMatcher)
             .perform(ViewActions.typeText(text))
+            //.perform(ViewActions.replaceText(text))
+            // Можно использовать replace в случае если набор тек ста с помощью typeText не срабатывает на некоторых view
     }
 
 
