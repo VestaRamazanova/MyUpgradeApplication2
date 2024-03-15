@@ -1,6 +1,5 @@
 package ru.tinkoff.myupgradeapplication.week5.kaspresso
 
-import androidx.test.core.app.takeScreenshot
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import org.junit.Rule

@@ -1,6 +1,5 @@
 package ru.tinkoff.myupgradeapplication.week5.matchers
 
-import android.app.Instrumentation
 import android.content.res.Resources
 import android.os.Build
 import android.view.View

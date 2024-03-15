@@ -1,11 +1,8 @@
 package ru.tinkoff.myupgradeapplication.week5.espresso.screens
 
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -19,6 +16,7 @@ import ru.tinkoff.myupgradeapplication.R
 
 class EspressoFirstScreen {
     val firstButtonMatcher = withId(R.id.button_first)
+    val composeButtonMatcher = withId(R.id.compose_button)
     val snackBarTextViewMatcher = allOf(
         ViewMatchers.withParent(Matchers.instanceOf(SnackbarContentLayout::class.java)),
         Matchers.instanceOf(MaterialTextView::class.java)
@@ -32,6 +30,11 @@ class EspressoFirstScreen {
 
     fun clickFirstButton(){
         onView(firstButtonMatcher)
+            .perform(click())
+    }
+
+    fun clickComposeButton(){
+        onView(composeButtonMatcher)
             .perform(click())
     }
 

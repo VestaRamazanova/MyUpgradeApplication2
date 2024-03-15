@@ -2,14 +2,10 @@ package ru.tinkoff.myupgradeapplication.week5.kaspresso
 
 import com.google.android.material.snackbar.SnackbarContentLayout
 import com.google.android.material.textview.MaterialTextView
-import com.kaspersky.kaspresso.screens.KScreen
 import io.github.kakaocup.kakao.edit.KEditText
 import io.github.kakaocup.kakao.text.KButton
-import io.github.kakaocup.kakao.text.KSnackbar
 import io.github.kakaocup.kakao.text.KTextView
-import ru.tinkoff.myupgradeapplication.MainActivity
 import ru.tinkoff.myupgradeapplication.R
-import ru.tinkoff.myupgradeapplication.week5.kautomator.KautomatorLoginScreen
 import ru.tinkoff.myupgradeapplication.week5.matchers.TextViewHintColorMatcher
 
 class KaspressoLoginScreen : BaseScreen() {
