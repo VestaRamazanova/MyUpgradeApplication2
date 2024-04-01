@@ -1,6 +1,8 @@
 package ru.tinkoff.myupgradeapplication.compose
 
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.performTextClearance
 import com.kaspersky.components.composesupport.config.addComposeSupport
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import io.github.kakaocup.compose.node.element.ComposeScreen.Companion.onComposeScreen
@@ -78,6 +80,36 @@ class ComposeKaspressoGreetingTest : TestCase(kaspressoBuilder.addComposeSupport
             }
             step("Assert input error") {
                 textInput.assert(hasError())
+            }
+        }
+    }
+
+    @Test
+    fun testValidation() = run {
+        composeTestRule.setContent { Greeting() }
+
+        onComposeScreen<KaspressoGreetingScreen>(composeTestRule) {
+            step("Input one letter") {
+                textInput.performTextInput("A")
+            }
+            step("Click OK Button") {
+                okButton.performClick()
+            }
+            step("Check Error Text") {
+                errorText.assertExists()
+                errorText.assertTextEquals("Name must contain at least 2 letters!")
+            }
+            step("Assert input error") {
+                textInput.assert(hasError())
+            }
+            step("Clear input field") {
+                textInput.performTextClearance()
+            }
+            step("Check Hasn't Error") {
+                errorText.assertIsNotDisplayed()
+            }
+            step("Assert input hasn't error") {
+                textInput.assert(hasNoError())
             }
         }
     }

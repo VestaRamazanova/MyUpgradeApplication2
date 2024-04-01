@@ -5,4 +5,5 @@ object GreetingTestTags {
     const val NAME_TEXT_INPUT = "GREETING_TEXT_INPUT_TAG"
     const val NAME_TEXT_INPUT_LABEL = "GREETING_TEXT_INPUT_LABEL_TAG"
     const val GREETING_TEXT_TAG = "GREETING_TEXT_TAG"
+    const val ERROR_TEXT_TAG = "ERROR_TEXT_TAG"
 }

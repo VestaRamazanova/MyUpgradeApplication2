@@ -27,6 +27,10 @@ class KaspressoGreetingScreen(semanticsProvider: SemanticsNodeInteractionsProvid
         hasTestTag(GreetingTestTags.GREETING_TEXT_TAG)
     }
 
+    val errorText: KNode = child {
+        hasTestTag(GreetingTestTags.ERROR_TEXT_TAG)
+    }
+
     val textInput: KNode = child {
         hasTestTag(GreetingTestTags.NAME_TEXT_INPUT)
     }

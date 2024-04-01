@@ -102,6 +102,7 @@ fun Greeting() {
                 }
                 error?.let { error ->
                     Text(
+                        modifier = Modifier.testTag(GreetingTestTags.ERROR_TEXT_TAG),
                         text = stringResource(error.errorRes),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error
