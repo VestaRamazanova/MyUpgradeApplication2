@@ -1,10 +1,14 @@
 package ru.tinkoff.myupgradeapplication.compose
 
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import ru.tinkoff.myupgradeapplication.R
 import org.junit.Rule
@@ -43,6 +47,22 @@ class ComposeActivityGreetingTest {
             okButton.assertIsNotEnabled()
             textInput.performTextInput("Alex")
             okButton.assertIsEnabled()
+        }
+    }
+
+    @Test
+    fun testChangeInscriptionWithScreen() {
+        EspressoFirstScreen().clickComposeButton()
+
+        with(GreetingScreen(composeTestRule)) {
+            textInput.performTextInput("Alex")
+            okButton.performClick()
+            inscription.assertTextEquals("Hello, Alex!")
+            textInput.performTextClearance()
+            textInput.performTextInput("Ivan")
+            inscription.assertIsNotDisplayed()
+            okButton.performClick()
+            inscription.assertTextEquals("Hello, Ivan!")
         }
     }
 }

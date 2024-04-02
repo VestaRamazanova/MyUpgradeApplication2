@@ -17,4 +17,7 @@ class GreetingScreen(private val semanticsProvider: SemanticsNodeInteractionsPro
 
     val textInput: SemanticsNodeInteraction
         get() = semanticsProvider.onNodeWithTag(GreetingTestTags.NAME_TEXT_INPUT)
+
+    val inscription: SemanticsNodeInteraction
+        get() = semanticsProvider.onNodeWithTag(GreetingTestTags.GREETING_TEXT_TAG)
 }
