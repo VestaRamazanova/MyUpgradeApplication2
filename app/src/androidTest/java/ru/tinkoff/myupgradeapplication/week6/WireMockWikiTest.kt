@@ -3,10 +3,14 @@ package ru.tinkoff.myupgradeapplication.week6
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.aResponse
+import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
+import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
+import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 import com.github.tomakehurst.wiremock.stubbing.Scenario
 import org.junit.Rule
@@ -44,6 +48,76 @@ class WireMockWikiTest {
             clickWikiSearchButton()
         }
         Thread.sleep(15000)
+    }
+
+    @Test
+    fun wikiContentMockTest() {
+        stubFor(
+            get(WireMock.urlPathMatching("/api.php"))
+                .withQueryParam("action", WireMock.equalTo("query"))
+                .withQueryParam("format", WireMock.equalTo("json"))
+                .withQueryParam("list", WireMock.equalTo("search"))
+                .withQueryParam("srsearch", WireMock.containing("императрица"))
+                .willReturn(
+                    ok( fileToString("mock/wikiImperatrica.json"))
+                )
+        )
+        with (StartPage ()) {
+            clickFirstButton()
+        }
+        with (WikiPage() ){
+            replaceTextInWikiField("Гуляй шальная императрица")
+            clickWikiSearchButton()
+        }
+        Thread.sleep(10000)
+    }
+
+    @Test
+    fun testTinkoffBankSearch() {
+        stubFor(
+            get(WireMock.urlPathMatching("/api.php"))
+                .withQueryParam("action", WireMock.equalTo("query"))
+                .withQueryParam("format", WireMock.equalTo("json"))
+                .withQueryParam("list", WireMock.equalTo("search"))
+                .withQueryParam("srsearch", WireMock.equalTo("Tinkoff Bank"))
+                .willReturn(
+                    ok( fileToString("mock/wikTinkoffBank.json"))
+                )
+        )
+        with (StartPage ()) {
+            clickFirstButton()
+        }
+        with (WikiPage() ){
+            replaceTextInWikiField("Tinkoff Bank")
+            clickWikiSearchButton()
+        }
+        verify(getRequestedFor(urlPathEqualTo("/api.php"))
+            .withQueryParam("action", WireMock.equalTo("query"))
+            .withQueryParam("format", WireMock.equalTo("json"))
+            .withQueryParam("list", WireMock.equalTo("search"))
+            .withQueryParam("srsearch", WireMock.equalTo("Tinkoff Bank")))
+    }
+
+    @Test
+    fun wikiNoResultMockTest() {
+        stubFor(
+            get(WireMock.urlPathMatching("/api.php"))
+                .withQueryParam("action", WireMock.equalTo("query"))
+                .withQueryParam("format", WireMock.equalTo("json"))
+                .withQueryParam("list", WireMock.equalTo("search"))
+                .withQueryParam("srsearch", WireMock.containing("песни"))
+                .willReturn(
+                    ok( fileToString("mock/wikiNoResult.json"))
+                )
+        )
+        with (StartPage ()) {
+            clickFirstButton()
+        }
+        with (WikiPage() ){
+            replaceTextInWikiField("Неудачные песни Пневмослона")
+            clickWikiSearchButton()
+        }
+        Thread.sleep(10000)
     }
 
     @Test
@@ -97,5 +171,4 @@ class WireMockWikiTest {
             Thread.sleep(4000)
         }
     }
-
 }

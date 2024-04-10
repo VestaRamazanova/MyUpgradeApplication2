@@ -26,8 +26,11 @@ class WikiPage {
         onView(editTextWikiFieldMatcher)
             .perform(ViewActions.typeText(text))
             //.perform(ViewActions.replaceText(text))
-            // Можно использовать replace в случае если набор тек ста с помощью typeText не срабатывает на некоторых view
+            // Можно использовать replace в случае если набор текста с помощью typeText не срабатывает на некоторых view
     }
 
-
+    fun replaceTextInWikiField(text: String) {
+        onView(editTextWikiFieldMatcher)
+        .perform(ViewActions.replaceText(text))
+        }
 }

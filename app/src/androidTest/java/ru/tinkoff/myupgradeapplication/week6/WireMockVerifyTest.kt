@@ -47,7 +47,7 @@ class WireMockVerifyTest {
         with (StartPage ()) {
             clickShowPersonButton()
             clickShowPersonButton()
-            verify(3, getRequestedFor(urlEqualTo("/api/")))
+            verify(2, getRequestedFor(urlEqualTo("/api/")))
         }
     }
 }
