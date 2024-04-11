@@ -68,6 +68,13 @@ class WireMockWikiTest {
             clickWikiSearchButton()
         }
         Thread.sleep(10000)
+        verify(
+            getRequestedFor(urlPathEqualTo("/api.php"))
+                .withQueryParam("action", WireMock.equalTo("query"))
+                .withQueryParam("format", WireMock.equalTo("json"))
+                .withQueryParam("list", WireMock.equalTo("search"))
+                .withQueryParam("srsearch", WireMock.equalTo("Гуляй шальная императрица"))
+        )
     }
 
     @Test
