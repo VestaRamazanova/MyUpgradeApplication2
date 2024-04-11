@@ -1,0 +1,23 @@
+{
+  "batchcomplete": "",
+  "continue": {
+    "sroffset": 10,
+    "continue": "-||"
+  },
+  "query": {
+    "searchinfo": {
+      "totalhits": 111111
+    },
+    "search": [
+      {
+        "ns": 0,
+        "title": "Императрица",
+        "pageid": 3682433,
+        "size": 62766,
+        "wordcount": 2873,
+        "snippet": "В объятьях юных кавалеров забывает обо всем",
+        "timestamp": "2020-06-27T07:24:56Z"
+      }
+    ]
+  }
+}

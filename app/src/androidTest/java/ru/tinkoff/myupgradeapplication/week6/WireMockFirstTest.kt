@@ -27,6 +27,7 @@ class WireMockFirstTest {
         // то что тест запускается - уже победа
     }
 
+    // тест падает, потому что в него заложен возврат ошибки .withFault(Fault.EMPTY_RESPONSE)
     @Test
     fun firstMockTest() {
         stubFor(
@@ -37,7 +38,7 @@ class WireMockFirstTest {
                 )
         )
 
-        with (StartPage()) {
+        with(StartPage()) {
             clickShowPersonButton()
             Thread.sleep(5000)
             with(personView) {
@@ -48,6 +49,7 @@ class WireMockFirstTest {
         Thread.sleep(5000) // sorry for this shit
     }
 
+    // пример не правильно работающего теста без использования Scenario - вызывается только последний добавленный)
     @Test
     fun testNeedChains() {
         stubFor(
@@ -59,7 +61,7 @@ class WireMockFirstTest {
         stubFor(
             get(urlEqualTo("/api/"))
                 .willReturn(
-                    //ok(fileToString("mock/mock-second.json"))
+                    //вместо ok(fileToString("mock/mock-second.json")) можно вызвать
                     aResponse()
                         .withStatus(200)
                         .withBody(fileToString("mock/mock-second.json"))
@@ -67,7 +69,7 @@ class WireMockFirstTest {
                 )
         )
 
-        with (StartPage ()) {
+        with(StartPage()) {
             clickShowPersonButton()
             Thread.sleep(5000)
             clickShowPersonButton()
