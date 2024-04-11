@@ -44,7 +44,7 @@ class WireMockVerifyTest {
                     ok(fileToString("mock/mock-second.json"))
                 )
         )
-        with (StartPage ()) {
+        with(StartPage()) {
             clickShowPersonButton()
             clickShowPersonButton()
             verify(2, getRequestedFor(urlEqualTo("/api/")))

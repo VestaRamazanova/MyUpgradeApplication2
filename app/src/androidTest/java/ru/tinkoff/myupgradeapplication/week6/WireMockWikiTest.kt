@@ -2,8 +2,6 @@ package ru.tinkoff.myupgradeapplication.week6
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.tomakehurst.wiremock.client.WireMock
-import com.github.tomakehurst.wiremock.client.WireMock.aResponse
-import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.ok
@@ -37,13 +35,13 @@ class WireMockWikiTest {
                 .withQueryParam("list", WireMock.equalTo("search"))
                 .withQueryParam("srsearch", WireMock.containing("Oleg"))
                 .willReturn(
-                    ok( fileToString("mock/wiki.json"))
+                    ok(fileToString("mock/wiki.json"))
                 )
         )
-        with (StartPage ()) {
+        with(StartPage()) {
             clickFirstButton()
         }
-        with (WikiPage() ){
+        with(WikiPage()) {
             typeTextToWikiFiled("Oleg")
             clickWikiSearchButton()
         }
@@ -59,13 +57,13 @@ class WireMockWikiTest {
                 .withQueryParam("list", WireMock.equalTo("search"))
                 .withQueryParam("srsearch", WireMock.containing("императрица"))
                 .willReturn(
-                    ok( fileToString("mock/wikiImperatrica.json"))
+                    ok(fileToString("mock/wikiImperatrica.json"))
                 )
         )
-        with (StartPage ()) {
+        with(StartPage()) {
             clickFirstButton()
         }
-        with (WikiPage() ){
+        with(WikiPage()) {
             replaceTextInWikiField("Гуляй шальная императрица")
             clickWikiSearchButton()
         }
@@ -81,21 +79,23 @@ class WireMockWikiTest {
                 .withQueryParam("list", WireMock.equalTo("search"))
                 .withQueryParam("srsearch", WireMock.equalTo("Tinkoff Bank"))
                 .willReturn(
-                    ok( fileToString("mock/wikTinkoffBank.json"))
+                    ok(fileToString("mock/wikTinkoffBank.json"))
                 )
         )
-        with (StartPage ()) {
+        with(StartPage()) {
             clickFirstButton()
         }
-        with (WikiPage() ){
+        with(WikiPage()) {
             replaceTextInWikiField("Tinkoff Bank")
             clickWikiSearchButton()
         }
-        verify(getRequestedFor(urlPathEqualTo("/api.php"))
-            .withQueryParam("action", WireMock.equalTo("query"))
-            .withQueryParam("format", WireMock.equalTo("json"))
-            .withQueryParam("list", WireMock.equalTo("search"))
-            .withQueryParam("srsearch", WireMock.equalTo("Tinkoff Bank")))
+        verify(
+            getRequestedFor(urlPathEqualTo("/api.php"))
+                .withQueryParam("action", WireMock.equalTo("query"))
+                .withQueryParam("format", WireMock.equalTo("json"))
+                .withQueryParam("list", WireMock.equalTo("search"))
+                .withQueryParam("srsearch", WireMock.equalTo("Tinkoff Bank"))
+        )
     }
 
     @Test
@@ -107,13 +107,13 @@ class WireMockWikiTest {
                 .withQueryParam("list", WireMock.equalTo("search"))
                 .withQueryParam("srsearch", WireMock.containing("песни"))
                 .willReturn(
-                    ok( fileToString("mock/wikiNoResult.json"))
+                    ok(fileToString("mock/wikiNoResult.json"))
                 )
         )
-        with (StartPage ()) {
+        with(StartPage()) {
             clickFirstButton()
         }
-        with (WikiPage() ){
+        with(WikiPage()) {
             replaceTextInWikiField("Неудачные песни Пневмослона")
             clickWikiSearchButton()
         }
@@ -121,7 +121,7 @@ class WireMockWikiTest {
     }
 
     @Test
-    fun bigChain(){
+    fun bigChain() {
         stubFor(
             get(urlEqualTo("/api/"))
                 .inScenario("Films")
@@ -142,7 +142,7 @@ class WireMockWikiTest {
                 .whenScenarioStateIs("Step 1 - Tarantino")
                 .willSetStateTo("Step 2 - Oleg")
                 .willReturn(
-                    ok( fileToString("mock/wiki.json"))
+                    ok(fileToString("mock/wiki.json"))
                 )
         )
 
@@ -156,17 +156,17 @@ class WireMockWikiTest {
                 )
         )
 
-        with(StartPage()){
+        with(StartPage()) {
             clickShowPersonButton()
             clickFirstButton()
         }
-        with (WikiPage() ){
+        with(WikiPage()) {
             typeTextToWikiFiled("Oleg")
             clickWikiSearchButton()
             Thread.sleep(4000)
             clickPreviousButton()
         }
-        with(StartPage()){
+        with(StartPage()) {
             clickShowPersonButton()
             Thread.sleep(4000)
         }
